@@ -10,7 +10,7 @@
 #ifndef FLASH_H_
 #define FLASH_H_
 
-#include "stm32f2xx_hal.h"
+#include "stm32f1xx_hal.h"
 
 /* Start and end addresses of the user application. */
 #define FLASH_APP_START_ADDRESS ((uint32_t)0x08008000u)

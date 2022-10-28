@@ -8,7 +8,7 @@
  */
 
 #include "xmodem.h"
-#include "stm32f2xx_it.h"
+#include "stm32f1xx_it.h"
 #include "stdio.h"
 #include "string.h"
 #include "uart1.h"

@@ -26,7 +26,7 @@ flash_status flash_erase(uint32_t sector)
   uint32_t error = 0u;
 
 	
-  erase_init.TypeErase = FLASH_TYPEERASE_SECTORS;
+  erase_init.TypeErase = FLASH_TYPEERASE_PAGES;
 	erase_init.VoltageRange=FLASH_VOLTAGE_RANGE_3;
   erase_init.Sector = sector;
   erase_init.Banks = FLASH_BANK_1;
