@@ -1,7 +1,7 @@
 #ifndef __FLASH_EXTENAL__
 #define __FLASH_EXTENAL__
 
-#include "stm32f2xx.h"                  // Device header
+#include "stm32f1xx.h"                  // Device header
 
 #define FLASH_Enable() HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET)
 #define FLASH_Disable() HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);

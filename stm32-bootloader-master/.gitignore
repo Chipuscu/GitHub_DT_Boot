@@ -1,5 +1,0 @@
-.settings
-Debug/
-Release/
-*.launch
-!blinky_test.bin

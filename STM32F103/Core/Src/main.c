@@ -21,6 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stm32f1xx_hal.h"
+#include "xmodem.h"
+#include "flash.h"
 
 /* USER CODE END Includes */
 
@@ -58,6 +61,11 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void mem_set(void* dst, int val, int cnt) 
+{
+	char *d = (char*)dst;
+	while (cnt--) *d++ = (char)val;
+}
 
 /* USER CODE END 0 */
 
@@ -92,7 +100,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+uart_transmit_str((uint8_t*)"\n\r================================\n\r");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -100,8 +108,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_6);
-		HAL_Delay(1000);
+//		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_6);
+//		HAL_Delay(1000);
+		uart_transmit_str((uint8_t*)"Please send a new binary file with Xmodem protocol to update the firmware.\n\r");
+		xmodem_receive();
+		
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

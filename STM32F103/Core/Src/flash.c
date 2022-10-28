@@ -17,7 +17,7 @@ typedef void (*fnc_ptr)(void);
  * @param   address: First address to be erased (the last is the end of the flash).
  * @return  status: Report about the success of the erasing.
  */
-flash_status flash_erase(uint32_t sector)
+flash_status flash_erase(uint32_t address)
 {
   HAL_FLASH_Unlock();
 
@@ -27,11 +27,11 @@ flash_status flash_erase(uint32_t sector)
 
 	
   erase_init.TypeErase = FLASH_TYPEERASE_PAGES;
-	erase_init.VoltageRange=FLASH_VOLTAGE_RANGE_3;
-  erase_init.Sector = sector;
+  erase_init.PageAddress = address;
   erase_init.Banks = FLASH_BANK_1;
   /* Calculate the number of pages from "address" and the end of flash. */
-  erase_init.NbSectors = 1;
+  erase_init.NbPages = (FLASH_BANK1_END - address) / FLASH_PAGE_SIZE;
+  /* Calculate the number of pages from "address" and the end of flash. */
   /* Do the actual erasing. */
   if (HAL_OK == HAL_FLASHEx_Erase(&erase_init, &error))
   {

@@ -100,8 +100,8 @@ void xmodem_receive(void)
         (void)uart_transmit_ch(X_ACK);
 				memset(Config.RxBuffer,0,1300);
 				(void)uart_transmit_str((uint8_t*)"\n\rFirmware updated!\n\r");
-			goto UUU;
-        //flash_jump_to_app();
+			//goto UUU;
+        flash_jump_to_app();
         break;
       /* Abort from host. */
       case X_CAN:
@@ -215,7 +215,7 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
 	 /* If it is the first packet, then erase the memory. */
 	if ((X_OK == status) && (false == x_first_packet_received))
   {
-    if (FLASH_OK == flash_erase(2))
+    if (FLASH_OK == flash_erase(FLASH_APP_START_ADDRESS))
     {
       x_first_packet_received = true;
     }
@@ -230,8 +230,8 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
     /* Do the actual flashing (if there weren't any errors). */
     if ((X_OK == status))
     {
-			Flash_WriteBuffer(Packet.received_packet_data,xmodem_actual_flash_address,1024);
-			//flash_write(xmodem_actual_flash_address, (uint32_t*)Packet.received_packet_data, 1024/4u);
+			//Flash_WriteBuffer(Packet.received_packet_data,xmodem_actual_flash_address,1024);
+			flash_write(xmodem_actual_flash_address, (uint32_t*)Packet.received_packet_data, 1024/4u);
 			HAL_Delay(10);
 			memset(Packet.received_packet_data,0,1024);
 			

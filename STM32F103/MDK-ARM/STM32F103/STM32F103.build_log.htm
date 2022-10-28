@@ -27,31 +27,7 @@ Project File Date:  10/28/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F103'
-compiling uart1.c...
-../Core/Inc/Flash_External.h(4): error:  #5: cannot open source input file "stm32f2xx.h": No such file or directory
-  #include "stm32f2xx.h"                  // Device header
-..\Core\Src\uart1.c: 0 warnings, 1 error
-compiling Flash_external.c...
-../Core/Inc/Flash_External.h(4): error:  #5: cannot open source input file "stm32f2xx.h": No such file or directory
-  #include "stm32f2xx.h"                  // Device header
-..\Core\Src\Flash_external.c: 0 warnings, 1 error
-compiling xmodem.c...
-../Core/Inc/Flash_External.h(4): error:  #5: cannot open source input file "stm32f2xx.h": No such file or directory
-  #include "stm32f2xx.h"                  // Device header
-..\Core\Src\xmodem.c: 0 warnings, 1 error
-compiling flash.c...
-..\Core\Src\flash.c(29): error:  #20: identifier "FLASH_TYPEERASE_SECTORS" is undefined
-    erase_init.TypeErase = FLASH_TYPEERASE_SECTORS;
-..\Core\Src\flash.c(30): error:  #136: struct "<unnamed>"  has no field "VoltageRange"
-  	erase_init.VoltageRange=FLASH_VOLTAGE_RANGE_3;
-..\Core\Src\flash.c(30): error:  #20: identifier "FLASH_VOLTAGE_RANGE_3" is undefined
-  	erase_init.VoltageRange=FLASH_VOLTAGE_RANGE_3;
-..\Core\Src\flash.c(31): error:  #136: struct "<unnamed>"  has no field "Sector"
-    erase_init.Sector = sector;
-..\Core\Src\flash.c(34): error:  #136: struct "<unnamed>"  has no field "NbSectors"
-    erase_init.NbSectors = 1;
-..\Core\Src\flash.c: 0 warnings, 5 errors
-"STM32F103\STM32F103.axf" - 8 Error(s), 0 Warning(s).
+"STM32F103\STM32F103.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -75,8 +51,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.6.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
