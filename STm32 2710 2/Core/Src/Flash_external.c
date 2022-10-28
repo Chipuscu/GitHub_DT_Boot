@@ -158,14 +158,14 @@ void Flash_WriteBuffer(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t Len)
 	}
 	else
 	{
-		count=FLASH_SPI_PAGESIZE-Addr;// So luong byte chua duoc viet trong page 
-		Flash_Writepage((int)WriteAddr,pBuffer,count); // Viet not vao
+		count=FLASH_SPI_PAGESIZE-Addr;
+		Flash_Writepage((int)WriteAddr,pBuffer,count); 
 		HAL_Delay(1);
-		temp=(int)(Len-count); // So luong byte con lai
-		CountPage=temp/FLASH_SPI_PAGESIZE; // Dem so trang phai viet
-		WriteAddr+=count;					// Dia chi moi 
+		temp=(int)(Len-count); 
+		CountPage=temp/FLASH_SPI_PAGESIZE; 
+		WriteAddr+=count;				
 		pBuffer+=count;
-		temp=temp%FLASH_SPI_PAGESIZE; 		//So luong byte thua ra khi viet vao cac page
+		temp=temp%FLASH_SPI_PAGESIZE; 		
 		if(CountPage>0)
 		{
 			while(CountPage--)

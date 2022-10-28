@@ -117,7 +117,7 @@ uint8_t  Config_Process(void)
 {
 	char Data[30];
 	char Address[10];
-	uint32_t AddtoRead;
+	uint32_t AddtoRead ;
 	mem_set(Address,0,10);
 	
 	
@@ -126,6 +126,7 @@ uint8_t  Config_Process(void)
 		TachDuLieu((char*)Config.RxBuffer,Address,'(',')');
 		AddtoRead = atoi((const char*)Address);
 		Flash_ReadBuffer(AddtoRead,Config.TxBuffer,100);
+		printf("%s",(char *)Config.TxBuffer);
 		//uart_transmit_str((uint8_t  *)Config.TxBuffer);
 		//Send1(Config.TxBuffer,1024);
 	}
@@ -145,7 +146,7 @@ uint8_t  Config_Process(void)
 			uart_transmit_str((uint8_t *)Data);
 		}
 	}
-	if(strstr((char*)Config.RxBuffer,"AS")!=NULL)
+	if(strstr((char*)Config.RxBuffer,"JUMP")!=NULL)
 	{
 		flash_jump_to_app();
 	}
