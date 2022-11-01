@@ -31,3 +31,6 @@ stm32f103\main.o: ../Core/Inc/xmodem.h
 stm32f103\main.o: ../Core/Inc/uart1.h
 stm32f103\main.o: ../Core/Inc/flash.h
 stm32f103\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+stm32f103\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+stm32f103\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+stm32f103\main.o: ../Core/Inc/Flash_External.h

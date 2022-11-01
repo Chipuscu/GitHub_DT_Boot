@@ -22,10 +22,13 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "uart1.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
+extern Buffer_TypeDef					UART1_Data;
+extern ConfStructure              Config;
 
 /* USER CODE END TD */
 
@@ -188,6 +191,21 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
+		if(Config.timeout>0)
+	{
+		Config.timeout--;
+		if(Config.timeout==0)
+		{
+			Config.NewData=1;
+			Config.NewData1=1;
+		}
+	}
+	if(Config.NewData==1)
+		{
+			Buffer_Handler();
+			Config.NewData=0;
+			UART1_Data.Count=0;
+		}
 
   /* USER CODE END SysTick_IRQn 1 */
 }
@@ -219,7 +237,10 @@ void SPI1_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-
+	unsigned char Buffer;
+	Buffer=USART1->DR;
+	Ring_Buffer_Write(&UART1_Data,Buffer);
+	Config.timeout=50;
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */

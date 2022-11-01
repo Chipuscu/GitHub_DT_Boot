@@ -11,8 +11,8 @@
 #include "Flash_External.h"
 
 
-#define _W25QXX_CS_GPIO               GPIOC
-#define _W25QXX_CS_PIN                GPIO_PIN_5
+#define _W25QXX_CS_GPIO               GPIOA
+#define _W25QXX_CS_PIN                GPIO_PIN_4
 #define _W25QXX_USE_FREERTOS          1
 #define _W25QXX_DEBUG                 0
 #define FLASH_SPI_DUMMY								0x00
@@ -27,21 +27,22 @@ uint8_t SPI_Sendata(uint8_t Data)
 {
 	uint8_t ret;
 	uint16_t Timeout=1000;
-	while(__HAL_SPI_GET_FLAG(&hspi1,SPI_FLAG_TXE)==0&&Timeout)
-	{
-			Timeout--;
-		}
-	if(Timeout==0)
-	{
-		return 0;
-	}
+//	while(__HAL_SPI_GET_FLAG(&hspi1,SPI_FLAG_TXE)==0&&Timeout)
+//	{
+//			Timeout--;
+//	}
+//	if(Timeout==0)
+//	{
+//		return 0;
+//	}
 	HAL_SPI_TransmitReceive(&hspi1, &Data, &ret, 1, 100);
 	Timeout=1000;
-	while((__HAL_SPI_GET_FLAG(&hspi1,SPI_FLAG_RXNE)==RESET)&&Timeout)
-	{
-		Timeout--;
-	}
+//	while((__HAL_SPI_GET_FLAG(&hspi1,SPI_FLAG_RXNE)==RESET)&&Timeout)
+//	{
+//		Timeout--;
+//	}
 	return ret;
+	
 }
 //###################################################################################################################
 void Flash_EnableWrite(void)
@@ -49,7 +50,7 @@ void Flash_EnableWrite(void)
 	FLASH_Enable();
 	SPI_Sendata(0x06);
 	FLASH_Disable();
-	SPI_Sendata(1);
+	//HAL_Delay(1);
 }
 //###################################################################################################################
 void Erase_Sector(void)
@@ -67,9 +68,8 @@ void Flash_Erase_Sector(uint32_t Address)
 {
 
 	Flash_EnableWrite();
-	//delay1ms();
 	FLASH_Enable();
-	SPI_Sendata(0xD8);
+	SPI_Sendata(0x20);
 	/*Gui 3 byte dia chi*/
 	SPI_Sendata((Address >> 16)&0xFF);
 	SPI_Sendata((Address >> 8)&0xFF);
@@ -82,19 +82,28 @@ void Flash_Erase_Sector(uint32_t Address)
 //###################################################################################################################
 void Flash_WaitForWriteEnd(void)
 {
+	uint8_t StatusRegister1=0;
 	uint32_t	TimeOut = 0xFFFFFFF;
 	uint8_t		Status = 0;
+	
 	HAL_Delay(1);
-	FLASH_Enable();
-	SPI_Sendata(0xD8);
-	while(TimeOut)
-		{
-			Status = (uint8_t)SPI_Sendata(FLASH_SPI_DUMMY);		
-			TimeOut--;
-			if((Status & 1) == 0)
-				break;
-		}
-	FLASH_Disable();
+	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_RESET);
+	//FLASH_Enable();
+	SPI_Sendata(0x05);
+	do
+	{
+		StatusRegister1 = SPI_Sendata(FLASH_SPI_DUMMY);
+		HAL_Delay(1);
+	} while ((StatusRegister1 & 0x01) == 0x01);
+	HAL_GPIO_WritePin(_W25QXX_CS_GPIO, _W25QXX_CS_PIN, GPIO_PIN_SET);
+//	while(TimeOut)
+//		{
+//			Status = (uint8_t)SPI_Sendata(FLASH_SPI_DUMMY);		
+//			TimeOut--;
+//			if((Status & 1) == 0)
+//				break;
+//		}
+	//FLASH_Disable();
 }
 //########################################################################################################
 void Flash_ReadBuffer1(uint32_t Address,char *Buffer,uint16_t Len)
@@ -111,15 +120,15 @@ void Flash_ReadBuffer1(uint32_t Address,char *Buffer,uint16_t Len)
 		Buffer++;
 	}
 	FLASH_Disable();
-	
 }
 void Flash_ReadBuffer(int Address, uint8_t *Buffer,uint16_t Len)
 {
+	volatile uint8_t status;
 	FLASH_Enable();
-	SPI_Sendata(Readdata);
-	SPI_Sendata((Address >> 16)&0xFF);
-	SPI_Sendata((Address >> 8)&0xFF);
-	SPI_Sendata(Address&0xFF);
+	status=SPI_Sendata(Readdata);
+	status=SPI_Sendata((Address >> 16)&0xFF);
+	status=SPI_Sendata((Address >> 8)&0xFF);
+	status=SPI_Sendata(Address&0xFF);
 	while(Len--)
 	{
 		*Buffer=SPI_Sendata(FLASH_SPI_DUMMY);
@@ -130,12 +139,14 @@ void Flash_ReadBuffer(int Address, uint8_t *Buffer,uint16_t Len)
 //########################################################################################################
 void Flash_Writepage(int Address, uint8_t *Buffer,uint16_t Len)
 {
+	
 	Flash_EnableWrite();
 	FLASH_Enable();
-	SPI_Sendata(PageProgram);
+	SPI_Sendata(0x02);
 	SPI_Sendata((Address >> 16)&0xFF);
 	SPI_Sendata((Address >> 8)&0xFF);
 	SPI_Sendata(Address&0xFF);
+	//HAL_SPI_Transmit(&hspi1,Buffer,Len,100);
 	while(Len--)
 	{
 		SPI_Sendata(*Buffer);
@@ -154,6 +165,7 @@ void Flash_WriteBuffer(uint8_t* pBuffer, uint32_t WriteAddr, uint16_t Len)
 	if (Addr+Len<=FLASH_SPI_PAGESIZE) //So luong Byte +dia chi < 1 page
 	{
 			Flash_Writepage((int)WriteAddr,pBuffer,Len);
+			HAL_Delay(1);
 			
 	}
 	else

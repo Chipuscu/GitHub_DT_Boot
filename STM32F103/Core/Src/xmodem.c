@@ -43,7 +43,6 @@ void xmodem_receive(void)
   while (X_OK == status)
   {
     uint8_t header=0;
-
     /* Get the header from UART. */
     uart_status comm_status = uart_receive((uint8_t *)&header, 1);
     /* Spam the host (until we receive something) with ACSII "C", to notify it, we want to use CRC-16. */
@@ -54,16 +53,14 @@ void xmodem_receive(void)
 			
     }
     /* Uart timeout or any other errors. */
-    else if ((UART_OK != comm_status) && (true == x_first_packet_received))
-    {
-			
-      status = xmodem_error_handler(&error_number, X_MAX_ERRORS);
-			
-    }
-    else
-    {
-     
-    }
+//    else if ((UART_OK != comm_status) && (true == x_first_packet_received))
+//    {
+//			
+//      status = xmodem_error_handler(&error_number, X_MAX_ERRORS);
+//    }
+//    else
+//    {
+//    }
 			
     /* The header can be: SOH, STX, EOT and CAN. */
     switch(header)
@@ -79,7 +76,7 @@ void xmodem_receive(void)
         if (X_OK == packet_status)
         {
           uart_transmit_ch(X_ACK);
-					HAL_Delay(150);
+					HAL_Delay(500);
         }
 				else if (X_ERROR_FLASH == packet_status)
         {
@@ -98,10 +95,11 @@ void xmodem_receive(void)
       case X_EOT:
         /* ACK, feedback to user (as a text), then jump to user application. */
         (void)uart_transmit_ch(X_ACK);
+				HAL_Delay(150);
 				memset(Config.RxBuffer,0,1300);
 				(void)uart_transmit_str((uint8_t*)"\n\rFirmware updated!\n\r");
 			//goto UUU;
-        flash_jump_to_app();
+        //flash_jump_to_app();
         break;
       /* Abort from host. */
       case X_CAN:
@@ -228,11 +226,11 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
 	
 /*************************/
     /* Do the actual flashing (if there weren't any errors). */
-    if ((X_OK == status))
+   if ((X_OK == status))
     {
-			//Flash_WriteBuffer(Packet.received_packet_data,xmodem_actual_flash_address,1024);
-			flash_write(xmodem_actual_flash_address, (uint32_t*)Packet.received_packet_data, 1024/4u);
-			HAL_Delay(10);
+			Flash_WriteBuffer(Packet.received_packet_data,xmodem_actual_flash_address,1024);
+			//flash_write(xmodem_actual_flash_address, (uint32_t*)Packet.received_packet_data, 1024/4u);
+			HAL_Delay(100);
 			memset(Packet.received_packet_data,0,1024);
 			
       /* Flashing error. */

@@ -8,6 +8,7 @@
  */
 
 #include "uart1.h"
+#include "Flash_External.h"
 #include "main.h"
 #include "string.h"
 #include "flash.h"
@@ -115,6 +116,7 @@ void Ring_Buffer_Write(Buffer_TypeDef *Buffer,uint8_t Data)
 
 uint8_t  Config_Process(void)
 {
+	int xAdd,xData;
 	char Data[30];
 	char Address[10];
 	uint32_t AddtoRead ;
@@ -125,11 +127,11 @@ uint8_t  Config_Process(void)
 	{
 		TachDuLieu((char*)Config.RxBuffer,Address,'(',')');
 		AddtoRead = atoi((const char*)Address);
+		
 		Flash_ReadBuffer(AddtoRead,Config.TxBuffer,100);
-		printf("%s",(char *)Config.TxBuffer);
-		//uart_transmit_str((uint8_t  *)Config.TxBuffer);
-		//Send1(Config.TxBuffer,1024);
+		uart_transmit_str((uint8_t *)Config.TxBuffer);
 	}
+
 	if(strstr((char*)Config.RxBuffer,"UP")!=NULL)
 	{
 		
@@ -142,11 +144,12 @@ uint8_t  Config_Process(void)
 			flash_write(AddtoRead, (uint32_t*)Config.TxBuffer, 1024/4u);
 			HAL_Delay(10);
 			AddtoRead+=1024;
-			sprintf(Data,"Add=%d\r\t",AddtoRead);
-			uart_transmit_str((uint8_t *)Data);
+//			sprintf(Data,"Add=%d\r\t",AddtoRead);
+//			uart_transmit_str((uint8_t *)Data);
 		}
+		uart_transmit_str((uint8_t *)("Update Xong"));
 	}
-	if(strstr((char*)Config.RxBuffer,"JUMP")!=NULL)
+	if(strstr((char*)Config.RxBuffer,"JUM")!=NULL)
 	{
 		flash_jump_to_app();
 	}

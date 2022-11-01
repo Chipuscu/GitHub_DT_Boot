@@ -51,8 +51,9 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
-void mem_set(void* dst, int val, int cnt) ;
+
 /* USER CODE BEGIN EFP */
+void mem_set(void* dst, int val, int cnt);
 
 /* USER CODE END EFP */
 
