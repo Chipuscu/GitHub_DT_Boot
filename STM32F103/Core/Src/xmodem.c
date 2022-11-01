@@ -53,26 +53,22 @@ void xmodem_receive(void)
 			
     }
     /* Uart timeout or any other errors. */
-//    else if ((UART_OK != comm_status) && (true == x_first_packet_received))
-//    {
-//			
-//      status = xmodem_error_handler(&error_number, X_MAX_ERRORS);
-//    }
-//    else
-//    {
-//    }
+    else if ((UART_OK != comm_status) && (true == x_first_packet_received))
+    {
 			
+      status = xmodem_error_handler(&error_number, X_MAX_ERRORS);
+    }
+    else
+    {
+    }
     /* The header can be: SOH, STX, EOT and CAN. */
     switch(header)
     {
       xmodem_status packet_status = X_ERROR;
-      /* 128 or 1024 bytes of data. */
-			
       case X_SOH:
       case X_STX:
         /* If the handling was successful, then send an ACK. */
         packet_status = xmodem_handle_packet(header);
-				
         if (X_OK == packet_status)
         {
           uart_transmit_ch(X_ACK);
@@ -83,6 +79,7 @@ void xmodem_receive(void)
           error_number = X_MAX_ERRORS;
           status = xmodem_error_handler(&error_number, X_MAX_ERRORS);
         }
+				
         /* Error while processing the packet, either send a NAK or do graceful abort. */
         else
         {
@@ -97,8 +94,7 @@ void xmodem_receive(void)
         (void)uart_transmit_ch(X_ACK);
 				HAL_Delay(150);
 				memset(Config.RxBuffer,0,1300);
-				(void)uart_transmit_str((uint8_t*)"\n\rFirmware updated!\n\r");
-			//goto UUU;
+				(void)uart_transmit_str((uint8_t*)"\n\rFirmware updated?\n\r");
         //flash_jump_to_app();
         break;
       /* Abort from host. */
@@ -115,8 +111,6 @@ void xmodem_receive(void)
     }
 		
   }
-	UUU:
-	return;
 }
 
 
@@ -184,7 +178,6 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
   /* 2 bytes for packet number, 1024 for data, 2 for CRC*/
    uart_status comm_status = UART_OK;
   /* Get the packet number, data and CRC from UART. */
- // PacketStruct *Pointer=(PacketStruct *)Config.RxBuffer;
 	
 	Packet.received_packet_number[0]=Config.RxBuffer[t++];
 	Packet.received_packet_number[1]=Config.RxBuffer[t++];
@@ -195,10 +188,11 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
 	}
 	Packet.received_packet_crc[0]=Config.RxBuffer[t++];
 	Packet.received_packet_crc[1]=Config.RxBuffer[t++];
-//  /* Merge the two bytes of CRC. */
+  /* Merge the two bytes of CRC. */
   uint16_t crc_received = ((Packet.received_packet_crc[0] << 8u) | Packet.received_packet_crc[1]);
   /* We calculate it too. */
 	uint16_t crc_calculated=xmodem_calc_crc(Packet.received_packet_data, 1024);
+	
 	
 	 /* Communication error. */
   if (UART_OK != comm_status)

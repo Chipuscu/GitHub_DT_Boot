@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F103\STM32F103.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F103\STM32F103.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Nov 01 11:09:24 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Nov 01 13:26:17 2022
 <BR><P>
 <H3>Maximum Stack Usage =        232 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -599,13 +599,14 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xe.o(RESET)
 </UL>
-<P><STRONG><a name="[6e]"></a>Config_Process</STRONG> (Thumb, 176 bytes, Stack size 40 bytes, uart1.o(i.Config_Process))
-<BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = Config_Process &rArr; Flash_ReadBuffer &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
+<P><STRONG><a name="[6e]"></a>Config_Process</STRONG> (Thumb, 198 bytes, Stack size 40 bytes, uart1.o(i.Config_Process))
+<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = Config_Process &rArr; Flash_Erase_Sector &rArr; Flash_WaitForWriteEnd &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mem_set
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_transmit_str
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TachDuLieu
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_ReadBuffer
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_write
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_jump_to_app
@@ -618,10 +619,10 @@ Global Symbols
 <P><STRONG><a name="[a]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f1xx_it.o(i.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f103xe.o(RESET)
 </UL>
-<P><STRONG><a name="[77]"></a>Erase_Sector</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, flash_external.o(i.Erase_Sector))
+<P><STRONG><a name="[78]"></a>Erase_Sector</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, flash_external.o(i.Erase_Sector))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = Erase_Sector &rArr; Flash_Erase_Sector &rArr; Flash_WaitForWriteEnd &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
+<BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -648,10 +649,10 @@ Global Symbols
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Sendata
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Writepage
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
 </UL>
 
-<P><STRONG><a name="[78]"></a>Flash_Erase_Sector</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, flash_external.o(i.Flash_Erase_Sector))
+<P><STRONG><a name="[77]"></a>Flash_Erase_Sector</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, flash_external.o(i.Flash_Erase_Sector))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = Flash_Erase_Sector &rArr; Flash_WaitForWriteEnd &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -660,7 +661,8 @@ Global Symbols
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_EnableWrite
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Erase_Sector
+<BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Config_Process
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Erase_Sector
 </UL>
 
 <P><STRONG><a name="[72]"></a>Flash_ReadBuffer</STRONG> (Thumb, 96 bytes, Stack size 24 bytes, flash_external.o(i.Flash_ReadBuffer))
@@ -672,14 +674,14 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Config_Process
 </UL>
 
-<P><STRONG><a name="[7f]"></a>Flash_WaitForWriteEnd</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, flash_external.o(i.Flash_WaitForWriteEnd))
+<P><STRONG><a name="[7f]"></a>Flash_WaitForWriteEnd</STRONG> (Thumb, 60 bytes, Stack size 16 bytes, flash_external.o(i.Flash_WaitForWriteEnd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = Flash_WaitForWriteEnd &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Sendata
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 </UL>
-<BR>[Called By]<UL><LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
+<BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
 </UL>
 
 <P><STRONG><a name="[80]"></a>Flash_WriteBuffer</STRONG> (Thumb, 130 bytes, Stack size 24 bytes, flash_external.o(i.Flash_WriteBuffer))
@@ -737,8 +739,8 @@ Global Symbols
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Config_Process
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_WriteBuffer
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_WaitForWriteEnd
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Erase_Sector
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Erase_Sector
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_erase
 </UL>
 
@@ -785,7 +787,7 @@ Global Symbols
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Writepage
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_WaitForWriteEnd
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_ReadBuffer
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_EnableWrite
 </UL>
 
@@ -1057,7 +1059,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Writepage
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_WaitForWriteEnd
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_ReadBuffer
-<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
+<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_Erase_Sector
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_EnableWrite
 </UL>
 
@@ -1156,7 +1158,7 @@ Global Symbols
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xmodem_receive
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_transmit_str
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Config_Process
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Erase_Sector
+<LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Erase_Sector
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
@@ -1193,7 +1195,7 @@ Global Symbols
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Config_Process
 </UL>
 
-<P><STRONG><a name="[bb]"></a>xmodem_receive</STRONG> (Thumb, 196 bytes, Stack size 32 bytes, xmodem.o(i.xmodem_receive))
+<P><STRONG><a name="[bb]"></a>xmodem_receive</STRONG> (Thumb, 216 bytes, Stack size 32 bytes, xmodem.o(i.xmodem_receive))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = xmodem_receive &rArr; xmodem_handle_packet &rArr; Flash_WriteBuffer &rArr; Flash_Writepage &rArr; Flash_EnableWrite &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xmodem_handle_packet
@@ -1227,7 +1229,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xmodem_receive
 </UL>
 
-<P><STRONG><a name="[c0]"></a>xmodem_handle_packet</STRONG> (Thumb, 210 bytes, Stack size 40 bytes, xmodem.o(i.xmodem_handle_packet))
+<P><STRONG><a name="[c0]"></a>xmodem_handle_packet</STRONG> (Thumb, 214 bytes, Stack size 40 bytes, xmodem.o(i.xmodem_handle_packet))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = xmodem_handle_packet &rArr; Flash_WriteBuffer &rArr; Flash_Writepage &rArr; Flash_EnableWrite &rArr; SPI_Sendata &rArr; HAL_SPI_TransmitReceive &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Flash_WriteBuffer

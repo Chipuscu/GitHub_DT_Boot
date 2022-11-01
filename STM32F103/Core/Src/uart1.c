@@ -132,7 +132,7 @@ uint8_t  Config_Process(void)
 		uart_transmit_str((uint8_t *)Config.TxBuffer);
 	}
 
-	if(strstr((char*)Config.RxBuffer,"UP")!=NULL)
+	if(strstr((char*)Config.RxBuffer,"UPDATE")!=NULL)
 	{
 		
 		TachDuLieu((char*)Config.RxBuffer,Address,'(',')');
@@ -144,16 +144,16 @@ uint8_t  Config_Process(void)
 			flash_write(AddtoRead, (uint32_t*)Config.TxBuffer, 1024/4u);
 			HAL_Delay(10);
 			AddtoRead+=1024;
-//			sprintf(Data,"Add=%d\r\t",AddtoRead);
-//			uart_transmit_str((uint8_t *)Data);
 		}
 		uart_transmit_str((uint8_t *)("Update Xong"));
-	}
-	if(strstr((char*)Config.RxBuffer,"JUM")!=NULL)
-	{
 		flash_jump_to_app();
 	}
-	return 1;
+	if(strstr((char*)Config.RxBuffer,"ERASE")!=NULL)
+	{
+		TachDuLieu((char*)Config.RxBuffer,Address,'(',')');
+		AddtoRead = atoi((const char*)Address);
+		Flash_Erase_Sector(AddtoRead);
+	}
 }
 
 uint8_t TachDuLieu(char* String, char* Buffer,char start, char end)
@@ -172,7 +172,6 @@ uint8_t TachDuLieu(char* String, char* Buffer,char start, char end)
 	{
 		Buffer[i++] = String[tmpCount];	
 	}
-		
 	return 1;	
 	
 	

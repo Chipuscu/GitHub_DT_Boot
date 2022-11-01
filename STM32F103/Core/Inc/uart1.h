@@ -32,7 +32,7 @@ typedef struct
  typedef struct
 {
 	uint16_t RxCounter;
-	char RxBuffer[1300];
+	char  RxBuffer[1300];
 	uint8_t TxBuffer[1300];
 	uint8_t TxCount;
 	uint16_t timeout;

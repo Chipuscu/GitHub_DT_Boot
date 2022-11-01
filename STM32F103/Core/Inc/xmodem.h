@@ -66,10 +66,10 @@ typedef enum {
 } xmodem_status;
  typedef struct
  {
-	 uint8_t received_packet_crc[2];
+	
 	uint8_t received_packet_number[2];
   uint8_t received_packet_data[1024];
-  
+  uint8_t received_packet_crc[2];
  }	PacketStruct;
 void xmodem_receive(void);
  static uint16_t _crc(uint32_t n);
