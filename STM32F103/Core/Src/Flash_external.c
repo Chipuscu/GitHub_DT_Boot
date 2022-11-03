@@ -55,7 +55,7 @@ void Flash_EnableWrite(void)
  ***************************************************************/
 void Erase_Sector(void)
 {
-	uint16_t Count1=32,Count2=38;
+	uint16_t Count1=7,Count2=15;
 		while(Count1<Count2)
 			{
 				Flash_Erase_Sector(Count1*4*1024);

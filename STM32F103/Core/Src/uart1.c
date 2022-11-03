@@ -134,19 +134,26 @@ uint8_t  Config_Process(void)
 
 	if(strstr((char*)Config.RxBuffer,"UPDATE")!=NULL)
 	{
-		
-		TachDuLieu((char*)Config.RxBuffer,Address,'(',')');
-		AddtoRead = atoi((const char*)Address);
-		for(int i=0;i<Config.TxCount;++i)
-		{
-			Flash_ReadBuffer(AddtoRead,Config.TxBuffer,1024);
-			HAL_Delay(10);
-			flash_write(AddtoRead, (uint32_t*)Config.TxBuffer, 1024/4u);
-			HAL_Delay(10);
-			AddtoRead+=1024;
+		if (FLASH_OK == flash_erase(FLASH_APP_START_ADDRESS))
+    {
+			HAL_Delay(50);
+			TachDuLieu((char*)Config.RxBuffer,Address,'(',')');
+			AddtoRead = atoi((const char*)Address); 
+			for(int i=0;i<Config.TxCount;++i)
+			{
+				Flash_ReadBuffer(AddtoRead,Config.TxBuffer,1024);
+				HAL_Delay(10);
+				flash_write(AddtoRead, (uint32_t*)Config.TxBuffer, 1024/4u);
+				HAL_Delay(10);
+				AddtoRead+=1024;
+			}
+			uart_transmit_str((uint8_t *)("\rUpdate Xong !\r"));
+			flash_jump_to_app();
 		}
-		uart_transmit_str((uint8_t *)("Update Xong"));
-		flash_jump_to_app();
+	}
+	if(strstr((char*)Config.RxBuffer,"JUM")!=NULL)
+	{
+		
 	}
 	if(strstr((char*)Config.RxBuffer,"ERASE")!=NULL)
 	{
@@ -154,6 +161,7 @@ uint8_t  Config_Process(void)
 		AddtoRead = atoi((const char*)Address);
 		Flash_Erase_Sector(AddtoRead);
 	}
+	return 1;
 }
 
 uint8_t TachDuLieu(char* String, char* Buffer,char start, char end)

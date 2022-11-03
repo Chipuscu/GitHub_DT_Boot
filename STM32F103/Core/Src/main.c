@@ -80,7 +80,7 @@ void mem_set(void* dst, int val, int cnt)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -109,7 +109,6 @@ int main(void)
 	Erase_Sector();
 	xmodem_receive();
   /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

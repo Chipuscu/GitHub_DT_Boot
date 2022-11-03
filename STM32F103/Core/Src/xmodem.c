@@ -69,6 +69,10 @@ void xmodem_receive(void)
       case X_STX:
         /* If the handling was successful, then send an ACK. */
         packet_status = xmodem_handle_packet(header);
+			
+			
+			
+			
         if (X_OK == packet_status)
         {
           uart_transmit_ch(X_ACK);
@@ -95,7 +99,22 @@ void xmodem_receive(void)
 				HAL_Delay(150);
 				memset(Config.RxBuffer,0,1300);
 				(void)uart_transmit_str((uint8_t*)"\n\rFirmware updated?\n\r");
-        //flash_jump_to_app();
+			uint16_t AddtoRead=32768;
+			if (FLASH_OK == flash_erase(FLASH_APP_START_ADDRESS))
+			{
+				HAL_Delay(50); 
+					
+				for(int i=0;i<Config.TxCount;++i)
+				{
+					Flash_ReadBuffer(AddtoRead,Config.TxBuffer,1024);
+					HAL_Delay(10);
+					flash_write(AddtoRead, (uint32_t*)Config.TxBuffer, 1024/4u);
+					HAL_Delay(10);
+					AddtoRead+=1024;
+				}
+				uart_transmit_str((uint8_t *)("\rUpdate Xong !\r"));
+				flash_jump_to_app();
+			}
         break;
       /* Abort from host. */
       case X_CAN:
@@ -207,14 +226,8 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
 	 /* If it is the first packet, then erase the memory. */
 	if ((X_OK == status) && (false == x_first_packet_received))
   {
-    if (FLASH_OK == flash_erase(FLASH_APP_START_ADDRESS))
-    {
+    
       x_first_packet_received = true;
-    }
-    else
-    {
-      status |= X_ERROR_FLASH;
-    }
   }
 
 	
